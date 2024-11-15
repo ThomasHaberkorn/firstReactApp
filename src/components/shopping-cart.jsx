@@ -5,39 +5,30 @@ import './shopping-cart.scss';
 
 class ShoppingCart extends Component {
     state = { 
-        items: [
-            {
-            amount: 1,
-            name: "Raccoon",
-            price: 20.00
-        },
-        {
-            amount: 1,
-            name: "Fox",
-            price: 30.00
-        },
-        {
-            amount: 1,
-            name: "Horse",
-            price: 40.00
-        },
-        {
-            amount: 1,
-            name: "Parrots",
-            price: 50.00
-        }
-    ]
+        items: []
     } 
 
+    calculateTotalPrice = () => {
+        return this.props.items.reduce((total, item) => total + item.price * item.amount, 0).toFixed(2);
+    }
 
     render() { 
-        return <div className="mainCart">
+        return (
+        <div className="mainCart">
             <h2>Warenkorb</h2>
            
-            { this.state.items.map(item => <div key={item.name}>{item.amount}x { item.name } {item.price}€ </div>)}
+            { this.props.items.map(item => (
+                <div key={item.name}>
+                    {item.amount}x { item.name } {(item.price * item.amount).toFixed(2) }€ 
+                </div>
+            ))}
+          
+          <hr style={{ border: "none", borderTop: "2px solid #ccc", margin: "10px 0", width: "80%" }} />
 
+                <h4>Gesamtpreis: {this.calculateTotalPrice()}€</h4>
 
-        </div>;
+        </div>
+        );
     }
 }
  
